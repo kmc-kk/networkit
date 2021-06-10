@@ -23,7 +23,7 @@ if shutil.which("cmake") is None:
 	print("ERROR: NetworKit compilation requires cmake.")
 	sys.exit(1)
 
-ninja_available = shutil.which("ninja") is not None
+#ninja_available = shutil.which("ninja") is not None
 if not (ninja_available or shutil.which("make")):
 	print("ERROR: NetworKit compilation requires Make or Ninja.")
 	sys.exit(1)
@@ -88,8 +88,11 @@ def determineCompiler(candidates, std, flags):
 		cmd.append("sample.cpp")
 		try:
 			if subprocess.call(cmd,stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0:
-				os.remove("sample.cpp")
-				os.remove("test_build")
+				try:
+					os.remove("sample.cpp")
+					os.remove("test_build")
+				except:
+					pass
 				return compiler
 		except:
 			pass
@@ -160,6 +163,8 @@ def buildNetworKit(install_prefix, externalCore=False, withTests=False, rpath=No
 		comp_cmd.append("-DNETWORKIT_BUILD_CORE=OFF")
 	if ninja_available:
 		comp_cmd.append("-GNinja")
+	comp_cmd.append("-G")
+	comp_cmd.append("MinGW Makefiles")
 	comp_cmd.append(os.getcwd()) #call CMakeLists.txt from networkit root
 	if rpath:
 		comp_cmd.append("-DNETWORKIT_PYTHON_RPATH="+rpath)
@@ -172,7 +177,8 @@ def buildNetworKit(install_prefix, externalCore=False, withTests=False, rpath=No
 	if ninja_available:
 		build_cmd = ["ninja", "install", "-j"+str(jobs)]
 	else:
-		build_cmd = ["make", "install", "-j"+str(jobs)]
+		#build_cmd = ["make", "install", "-j"+str(jobs)]
+		build_cmd = ["mingw32-make", "install", "-j"+str(jobs)]
 	print("Build with: '{0}'".format(" ".join(build_cmd)), flush=True)
 	if not subprocess.call(build_cmd, cwd=buildDirectory) == 0:
 		print("Build tool returned an error, exiting setup.py")

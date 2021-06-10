@@ -199,7 +199,7 @@ if(NETWORKIT_BUILD_CORE AND NETWORKIT_MONOLITH)
 			LIBRARY DESTINATION ${NETWORKIT_LIB_DEST}
 			ARCHIVE DESTINATION ${NETWORKIT_LIB_DEST})
 
-	target_link_libraries(networkit PRIVATE tlx OpenMP::OpenMP_CXX)
+	target_link_libraries(networkit PRIVATE tlx OpenMP::OpenMP_CXX mman wsock32)
 	target_include_directories(networkit BEFORE PUBLIC "${PROJECT_SOURCE_DIR}/include")
 	target_include_directories(networkit PUBLIC "${PROJECT_SOURCE_DIR}/extlibs/ttmath/")
 endif()
@@ -225,7 +225,7 @@ if(NETWORKIT_PYTHON)
 
 	set_target_properties(_NetworKit PROPERTIES
 				CXX_STANDARD ${NETWORKIT_CXX_STANDARD}
-				COMPILE_FLAGS "${NETWORKIT_CXX_FLAGS}"
+				COMPILE_FLAGS "${NETWORKIT_CXX_FLAGS} -DMS_WIN64"
 				LINK_FLAGS "${NETWORKIT_LINK_FLAGS}"
 				PREFIX ""
 				OUTPUT_NAME "_NetworKit.${NETWORKIT_PYTHON_SOABI}")
@@ -244,7 +244,7 @@ if(NETWORKIT_PYTHON)
 		endif()
 	endif()
 
-	target_link_libraries(_NetworKit PRIVATE tlx OpenMP::OpenMP_CXX)
+	target_link_libraries(_NetworKit PRIVATE tlx OpenMP::OpenMP_CXX <Anaconda3Path>/envs/py37/libs/python37.lib)
 
 	install(TARGETS _NetworKit
 			LIBRARY DESTINATION ${NETWORKIT_LIB_DEST})

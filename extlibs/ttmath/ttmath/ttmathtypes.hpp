@@ -218,8 +218,8 @@ namespace ttmath
         typedef unsigned __int64 uint;
         typedef signed   __int64 sint;
     #else
-        typedef unsigned long uint;
-        typedef signed   long sint;
+        typedef unsigned long long uint;
+        typedef signed   long long sint;
     #endif 
 
     /*!

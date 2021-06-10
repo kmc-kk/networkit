@@ -13,7 +13,11 @@
 #include <networkit/io/DibapGraphReader.hpp>
 
 #include <cstdio>
+#ifdef __MINGW32__
+#include <winsock.h>
+#else
 #include <netinet/in.h>
+#endif
 
 // codes in file headers to distinguish type
 namespace NetworKit {

@@ -1,0 +1,18 @@
+--- setenv.cpp.bak	2020-02-03 12:01:56.517961400 +0900
++++ setenv.cpp	2021-06-10 14:34:05.188523800 +0900
+@@ -11,11 +11,14 @@
+ #include <tlx/port/setenv.hpp>
+ 
+ #include <cstdlib>
++#ifdef __MINGW32__
++errno_t getenv_s(size_t *, char*, size_t, const char *);
++#endif
+ 
+ namespace tlx {
+ 
+ // Windows porting madness because setenv() is apparently dangerous
+-#if defined(_MSC_VER)
++#if defined(_MSC_VER) || defined(__MINGW32__)
+ 
+ int setenv(const char* name, const char* value, int overwrite) {
+     if (!overwrite) {

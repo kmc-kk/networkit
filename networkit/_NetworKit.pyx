@@ -14,8 +14,9 @@ import warnings
 try:
 	import pandas
 except:
-	warnings.warn("WARNING: module 'pandas' not found, some functionality will be restricted",
-			ReducedFunctionalityWarning)
+	#warnings.warn("WARNING: module 'pandas' not found, some functionality will be restricted",
+	#		ReducedFunctionalityWarning)
+	pass
 
 
 # C++ operators
